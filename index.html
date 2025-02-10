@@ -1,0 +1,115 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   JPL
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+        }
+  </style>
+ </head>
+ <body class="bg-gray-900 text-white">
+  <header class="bg-black py-4">
+   <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-yellow-500">
+     JPL - Jaipur Premiere League
+    </h1>
+    <nav>
+     <ul class="flex space-x-4">
+      <li>
+       <a class="text-white hover:text-yellow-500" href="#">
+        Home
+       </a>
+      </li>
+      <li>
+       <a class="text-white hover:text-yellow-500" href="#">
+        Teams
+       </a>
+      </li>
+      <li>
+       <a class="text-white hover:text-yellow-500" href="#">
+        Scores
+       </a>
+      </li>
+      <li>
+       <a class="text-white hover:text-yellow-500" href="#">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <main class="container mx-auto py-8">
+   <section class="mb-8" id="teams">
+    <h2 class="text-2xl font-bold text-yellow-500 mb-4">
+     Teams
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     <!-- Teams will be dynamically loaded here -->
+    </div>
+   </section>
+   <section id="scores">
+    <h2 class="text-2xl font-bold text-yellow-500 mb-4">
+     Latest Scores
+    </h2>
+    <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+     <div class="flex justify-between items-center mb-4">
+      <div class="flex items-center">
+       <span class="text-xl font-bold text-white">
+        Team A
+       </span>
+      </div>
+      <span class="text-xl font-bold text-yellow-500">
+       2 - 1
+      </span>
+      <div class="flex items-center">
+       <span class="text-xl font-bold text-white">
+        Team B
+       </span>
+      </div>
+     </div>
+     <!-- Repeat for each score update -->
+    </div>
+   </section>
+  </main>
+  <footer class="bg-black py-4 mt-8">
+   <div class="container mx-auto text-center">
+    <p class="text-gray-400">
+     © 2023 JPL - Jaipur Premiere League. All rights reserved.
+    </p>
+   </div>
+  </footer>
+  <script>
+   // Fetch teams and scores from SheetDB API and update the DOM
+        async function fetchTeamsAndScores() {
+            const teamsResponse = await fetch('https://sheetdb.io/api/v1/3edyx76jf9ol3');
+            const teams = await teamsResponse.json();
+
+            const teamsContainer = document.querySelector('#teams .grid');
+            teamsContainer.innerHTML = '';
+
+            teams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-lg');
+                teamCard.innerHTML = `
+                    <h3 class="text-xl font-bold text-yellow-500">${team.name}</h3>
+                    <p class="text-gray-400">${team.bio}</p>
+                `;
+                teamsContainer.appendChild(teamCard);
+            });
+
+            // Fetch scores similarly and update the scores section
+        }
+
+        fetchTeamsAndScores();
+  </script>
+ </body>
+</html>
